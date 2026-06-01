@@ -215,7 +215,16 @@ def rate(nametag, rating):
         print(f"Answer: {cards[nametag].answer}")
     print(f"Card rated {review_log.rating} on {review_time}")
     print(f"Card next due on {due_date}")
-    # TODO: Make a card next due feature
+
+    now = datetime.now(timezone.utc)
+    due_cards = []
+    for card in cards.values():
+        if card.card.due <= now:
+            due_cards.append(card)
+    if len(due_cards) > 0:
+        next_card = due_cards[0]
+        print(f"Next card is: {next_card.nametag}")
+        print(next_card.description)
 
     save_data(cards, scheduler)
 
