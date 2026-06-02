@@ -100,7 +100,7 @@ def all_stats():
             ":",
             f"Sta. {stability:.3f}",
             ":",
-            f"Dif. {difficulty}",
+            f"Diff. {difficulty:.2f}",
             ":",
             f"{card.description}",
         )
