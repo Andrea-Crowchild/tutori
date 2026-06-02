@@ -42,6 +42,7 @@ def cli(ctx):
 @cli.command()
 def all():
     """View all items stored by Tutori"""
+    # TODO: Develop headers
     # TODO: Improve docstrings
 
     cards, scheduler = load_data()
@@ -59,6 +60,47 @@ def all():
             f"{card.nametag.ljust(name_width)}",
             ":",
             f"{card.card.due.strftime('%Y-%m-%d %H:%M').ljust(date_width)}",
+            ":",
+            f"{card.description}",
+        )
+
+
+@cli.command()
+def all_stats():
+    """View all items stored by Tutori"""
+    # TODO: Develop headers
+    # TODO: Improve docstrings
+
+    cards, scheduler = load_data()
+    # checks if cards is 0 as well as None
+
+    if not cards:
+        return
+    if scheduler is None:
+        return
+
+    name_width = max(len(name) for name in cards) + 2
+    date_width = max(len(str(card.card.due.date())) for card in cards.values())
+    cards = dict(sorted(cards.items()))
+
+    for card in cards.values():
+        reps = len(card.review_logs)
+        difficulty = card.card.difficulty
+        retrievability = scheduler.get_card_retrievability(card.card)
+        stability = card.card.stability
+
+        print(
+            f"{card.nametag.ljust(name_width)}",
+            ":",
+            f"{card.card.due.strftime('%Y-%m-%d %H:%M').ljust(date_width)}",
+            ":",
+            f"Reps {reps}",
+            ":",
+            f"Ret. {retrievability:.3f}",
+            ":",
+            f"Sta. {stability:.3f}",
+            ":",
+            f"Dif. {difficulty}",
             ":",
             f"{card.description}",
         )
@@ -409,6 +451,7 @@ def stats(nametag):
 
 cli.add_command(add, name="a")
 cli.add_command(all, name="la")
+cli.add_command(all_stats, name="las")
 cli.add_command(edit, name="e")
 cli.add_command(rate, name="r")
 cli.add_command(remove, name="rm")
