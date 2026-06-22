@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # TODO: Add more error checking
 # TODO: Change "entry" or "item" to "card"
+# TODO: Finish docstrings
 import json
 import os
 from datetime import date, datetime, timedelta, timezone
